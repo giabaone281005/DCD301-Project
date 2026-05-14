@@ -1,0 +1,20 @@
+{
+  "status": "warning",
+  "detected_issue": "temperature_high",
+  "sensor_quality_score": 0.82,
+  "recommendation": {
+    "action": "turn_on_fan",
+    "level": 2,
+    "duration_minutes": 10,
+    "confidence": 0.86
+  },
+  "explanation": "Temperature has remained above the recommended range for 15 minutes.",
+  "evidence": [
+    {
+      "source": "greenhouse_guideline.pdf",
+      "chunk_id": "chunk_12",
+      "relevance_score": 0.91
+    }
+  ],
+  "requires_human_approval": false
+}
