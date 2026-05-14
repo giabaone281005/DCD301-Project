@@ -1,32 +1,39 @@
 # Giải thích Research Questions (RQ)
 
-## RQ1
-**Làm thế nào để tích hợp dữ liệu cảm biến IoT thời gian thực với tri thức chuyên ngành nông nghiệp để hỗ trợ ra quyết định giải thích được?**
+## Tổng quan
+Tài liệu này giải thích chi tiết các Research Questions (RQ) cho Research Theme 7: Mạch tổ hợp (Multiplexer), tập trung vào ứng dụng MUX trong hệ thống số và tích hợp với domain Smart Greenhouse.
 
-- Dữ liệu IoT thời gian thực cung cấp trạng thái hiện tại của môi trường (nhiệt độ, độ ẩm, độ ẩm đất, v.v.).
-- Tri thức chuyên ngành nông nghiệp (tài liệu kỹ thuật, hướng dẫn canh tác) giúp xác định ngưỡng an toàn và hành động phù hợp.
-- RAG sẽ tìm tài liệu liên quan đến trạng thái sensor và dùng thông tin đó để giải thích khuyến nghị.
-- Kết quả cần là một output có thể giải thích được: vì sao hệ thống đề xuất hành động, dựa trên dữ liệu sensor và thông tin tham chiếu.
+## RQ-07: Multiplexer (MUX) là gì? Làm thế nào để sử dụng MUX nhằm chọn một trong nhiều tín hiệu đầu vào và đưa ra một ngõ ra duy nhất?
+**Câu hỏi:** Multiplexer (MUX) là gì? Làm thế nào để sử dụng MUX nhằm chọn một trong nhiều tín hiệu đầu vào và đưa ra một ngõ ra duy nhất?
 
-## RQ2
-**Chất lượng dữ liệu sensor ảnh hưởng thế nào đến độ tin cậy của khuyến nghị AIoT?**
+- **Định nghĩa MUX:** MUX là mạch logic số dùng để chọn một trong nhiều tín hiệu đầu vào (data inputs) và chuyển nó đến một ngõ ra duy nhất (output).
+- **Cách sử dụng:** Cung cấp tín hiệu đầu vào, thiết lập đường chọn (select lines) để chỉ định đầu vào mong muốn, và ngõ ra sẽ phản ánh tín hiệu đã chọn.
+- **Ví dụ:** MUX 4-to-1 có 4 đầu vào và 2 đường chọn; MUX giúp tiết kiệm chân I/O trong hệ thống như Smart Greenhouse để chọn dữ liệu từ sensors.
+- **Ứng dụng trong domain:** Trong greenhouse, MUX có thể chọn dữ liệu từ cảm biến nhiệt độ hoặc độ ẩm để xử lý quyết định.
 
-- Dữ liệu sensor có thể bị thiếu, nhiễu, lỗi hoặc mâu thuẫn.
-- Nếu chất lượng dữ liệu kém, hệ thống cần giảm độ tin cậy (confidence) hoặc yêu cầu xác minh thêm.
-- RQ2 hướng tới thiết kế module đánh giá chất lượng dữ liệu và xem cách nó ảnh hưởng đến khuyến nghị cuối cùng.
-- Output cần thể hiện rõ quality score và mức độ tự tin của hệ thống.
+## RQ7.1: Multiplexer có các thành phần chính nào, bao gồm data inputs, select lines và output?
+**Câu hỏi:** Multiplexer có các thành phần chính nào, bao gồm data inputs, select lines và output?
 
-## RQ3
-**Liệu Agentic RAG có cải thiện độ liên quan ngữ cảnh và khả năng giải thích của hỗ trợ ra quyết định nông nghiệp so với rule-based hoặc LLM-only không?**
+- **Data inputs:** Các tín hiệu đầu vào (ví dụ, D0, D1, D2, D3 cho MUX 4-to-1), mỗi tín hiệu là một bit hoặc bus dữ liệu từ sensors như nhiệt độ, độ ẩm.
+- **Select lines:** Các đường điều khiển (ví dụ, S0, S1), dùng mã nhị phân để chọn đầu vào (2^n đường chọn cho 2^n đầu vào).
+- **Output:** Một ngõ ra duy nhất (ví dụ, Y), phản ánh tín hiệu từ đầu vào đã chọn, dùng để đưa ra quyết định như bật quạt.
+- **Thành phần bổ sung:** Một số MUX có enable input để kích hoạt mạch, giúp kiểm soát trong hệ thống greenhouse.
 
-- Rule-based chỉ dùng luật cố định, thiếu linh hoạt khi dữ liệu phức tạp.
-- LLM-only có thể đưa ra câu trả lời tự do nhưng thiếu evidence từ tài liệu chuyên ngành.
-- Agentic RAG kết hợp kiểm tra chất lượng dữ liệu, truy xuất tri thức và workflow agent để tạo khuyến nghị có giải thích.
-- RQ3 yêu cầu so sánh kết quả giữa các phương pháp và kiểm chứng khả năng giải thích, tính liên quan ngữ cảnh.
+## RQ7.2: Với MUX 4-to-1, các đường chọn S1 và S0 quyết định ngõ vào được chọn như thế nào?
+**Câu hỏi:** Với MUX 4-to-1, các đường chọn S1 và S0 quyết định ngõ vào được chọn như thế nào?
 
-## RQ4
-**Khung đề xuất hiệu quả đến mức nào trong các kịch bản bình thường, thiếu dữ liệu, lỗi sensor và sensor mâu thuẫn?**
+- **Cấu trúc MUX 4-to-1:** Có 4 data inputs (D0-D3) và 2 select lines (S1, S0).
+- **Quy tắc chọn:** Dựa trên giá trị nhị phân của S1S0.
+  - S1=0, S0=0: Chọn D0 (ví dụ, dữ liệu nhiệt độ).
+  - S1=0, S0=1: Chọn D1 (ví dụ, độ ẩm).
+  - S1=1, S0=0: Chọn D2 (ví dụ, độ ẩm đất).
+  - S1=1, S0=1: Chọn D3 (ví dụ, ánh sáng).
+- **Ngõ ra:** Y = D[selected], nơi selected là giá trị thập phân của S1S0, dùng để quyết định action trong greenhouse.
 
-- Hệ thống cần được đánh giá trên các tình huống khác nhau: dữ liệu bình thường, cảnh báo, dữ liệu thiếu, lỗi sensor, mâu thuẫn sensor.
-- Mục tiêu là kiểm tra độ bền, độ chính xác và khả năng xử lý tình huống nguy hiểm.
-- RQ4 yêu cầu xác định xem proposed framework có duy trì được hiệu quả khi dữ liệu không hoàn hảo hay không.
+## RQ7.3: Multiplexer có thể được ứng dụng như thế nào trong việc chọn dữ liệu trong hệ thống số?
+**Câu hỏi:** Multiplexer có thể được ứng dụng như thế nào trong việc chọn dữ liệu trong hệ thống số?
+
+- **Chọn kênh dữ liệu:** Trong hệ thống đa kênh như Smart Greenhouse, MUX chọn tín hiệu từ sensors (nhiệt độ, độ ẩm, độ ẩm đất, ánh sáng) để xử lý tuần tự.
+- **Định tuyến dữ liệu:** Trong mạch logic (FPGA, ALU), MUX chọn nguồn dữ liệu cho phép tính toán linh hoạt, như chọn giữa hai sensors để ra quyết định.
+- **Tiết kiệm tài nguyên:** Giảm chân I/O trong vi điều khiển, chia sẻ chân GPIO cho nhiều thiết bị sensors.
+- **Ứng dụng cụ thể:** Trong greenhouse, MUX chọn dữ liệu sensor để kích hoạt actions như bật quạt (nóng), tưới nước (khô đất), bật đèn (ít sáng), hoặc cảnh báo (mâu thuẫn dữ liệu).

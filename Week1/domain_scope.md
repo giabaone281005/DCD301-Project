@@ -1,13 +1,14 @@
 # Domain đã chọn và lý do chọn
 
 ## Domain được chọn
-**Smart greenhouse monitoring**
+**Smart Greenhouse Monitoring**
 
 ## Lý do chọn
-- Dễ mô phỏng sensor và tạo test case.
-- Các chỉ số như nhiệt độ, độ ẩm, độ ẩm đất và ánh sáng là những thông số phổ biến, có tài liệu tham khảo nhiều.
-- Khuyến nghị có thể hiển thị rõ ràng: bật quạt, tưới nước, bật đèn, cảnh báo.
-- Đây là một phạm vi vừa đủ để làm rõ RAG, data quality và agent reasoning mà không quá phức tạp.
+- **Dễ mô phỏng và test:** Sensors như nhiệt độ, độ ẩm, độ ẩm đất và ánh sáng dễ triển khai và tạo test case đa dạng.
+- **Thông số phổ biến:** Có nhiều tài liệu tham khảo về nông nghiệp và greenhouse, hỗ trợ tích hợp tri thức chuyên ngành.
+- **Khuyến nghị rõ ràng:** Actions như bật quạt, tưới nước, bật đèn, cảnh báo dễ hiển thị và đánh giá hiệu quả.
+- **Liên kết với RQ:** Domain này cho phép ứng dụng Multiplexer (MUX) để chọn dữ liệu từ sensors, minh họa cách MUX hoạt động trong hệ thống số để ra quyết định thông minh.
+- **Phạm vi phù hợp:** Vừa đủ để khám phá RAG, chất lượng dữ liệu và agent reasoning mà không quá phức tạp.
 
 ## Phạm vi cụ thể
 - Thiết bị giám sát nhà kính (greenhouse) cho rau/rau ăn lá.
