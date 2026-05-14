@@ -1,20 +1,60 @@
 {
-  "status": "warning",
-  "detected_issue": "temperature_high",
-  "sensor_quality_score": 0.82,
-  "recommendation": {
-    "action": "turn_on_fan",
-    "level": 2,
-    "duration_minutes": 10,
-    "confidence": 0.86
-  },
-  "explanation": "Temperature has remained above the recommended range for 15 minutes.",
-  "evidence": [
-    {
-      "source": "greenhouse_guideline.pdf",
-      "chunk_id": "chunk_12",
-      "relevance_score": 0.91
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["normal", "warning", "alert"],
+      "description": "Trạng thái tổng thể của hệ thống greenhouse"
+    },
+    "selected_sensor": {
+      "type": "string",
+      "enum": ["temperature", "humidity", "soil_moisture", "light"],
+      "description": "Sensor được chọn bởi MUX để xử lý"
+    },
+    "mux_select_lines": {
+      "type": "object",
+      "properties": {
+        "S1": { "type": "integer", "enum": [0, 1] },
+        "S0": { "type": "integer", "enum": [0, 1] }
+      },
+      "description": "Giá trị select lines của MUX 4-to-1"
+    },
+    "sensor_data": {
+      "type": "object",
+      "properties": {
+        "value": { "type": "number" },
+        "unit": { "type": "string" },
+        "quality_score": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "description": "Dữ liệu từ sensor đã chọn"
+    },
+    "recommendation": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": ["bat_quat", "tuoi_nuoc", "bat_den", "canh_bao"]
+        },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "description": "Khuyến nghị action dựa trên dữ liệu"
+    },
+    "explanation": {
+      "type": "string",
+      "description": "Giải thích quyết định, dựa trên tri thức và dữ liệu"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": { "type": "string" },
+          "relevance_score": { "type": "number" }
+        }
+      },
+      "description": "Bằng chứng từ tài liệu tham chiếu"
     }
-  ],
-  "requires_human_approval": false
+  },
+  "required": ["status", "selected_sensor", "recommendation", "explanation"]
 }
